@@ -1,12 +1,12 @@
-import { env } from "@insecret/env/server";
-import { PrismaLibSql } from "@prisma/adapter-libsql";
+import { env } from '@insecret/env/server'
+import { PrismaLibSql } from '@prisma/adapter-libsql'
 
-import { PrismaClient } from "../prisma/generated/client";
+import { PrismaClient } from '../prisma/generated/client'
 
 const adapter = new PrismaLibSql({
   url: env.DATABASE_URL,
-});
+})
 
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient({ adapter })
 
-export default prisma;
+export default prisma

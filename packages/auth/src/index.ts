@@ -1,11 +1,11 @@
-import prisma from "@insecret/db";
-import { env } from "@insecret/env/server";
-import { betterAuth } from "better-auth";
-import { prismaAdapter } from "better-auth/adapters/prisma";
+import prisma from '@insecret/db'
+import { env } from '@insecret/env/server'
+import { betterAuth } from 'better-auth'
+import { prismaAdapter } from 'better-auth/adapters/prisma'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
-    provider: "sqlite",
+    provider: 'sqlite',
   }),
 
   trustedOrigins: [env.CORS_ORIGIN],
@@ -14,10 +14,10 @@ export const auth = betterAuth({
   },
   advanced: {
     defaultCookieAttributes: {
-      sameSite: "none",
+      sameSite: 'none',
       secure: true,
       httpOnly: true,
     },
   },
   plugins: [],
-});
+})

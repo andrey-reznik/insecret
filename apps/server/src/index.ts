@@ -20,7 +20,20 @@ const rpcHandler = new RPCHandler(appRouter, {
 const apiHandler = new OpenAPIHandler(appRouter, {
   plugins: [
     new OpenAPIReferencePlugin({
+      docsProvider: 'scalar',
+      docsPath: '/scalar',
       schemaConverters: [new ZodToJsonSchemaConverter()],
+      specPath: '/spec.json',
+      docsConfig: {
+        theme: 'elysiajs',
+      },
+      specGenerateOptions: {
+        info: {
+          title: 'Insecret API',
+          version: '1.0.0',
+        },
+        servers: [{ url: '/' }],
+      },
     }),
   ],
   interceptors: [
@@ -30,7 +43,6 @@ const apiHandler = new OpenAPIHandler(appRouter, {
   ],
 })
 
-// biome-ignore lint/correctness/noUnusedVariables: needed
 const app = new Elysia()
   .use(
     cors({
@@ -47,6 +59,12 @@ const app = new Elysia()
     }
     return status(405)
   })
+  .all('/api*', async (context) => {
+    const { response } = await apiHandler.handle(context.request, {
+      context: await createContext({ context }),
+    })
+    return response ?? new Response('Not Found', { status: 404 })
+  })
   .all('/rpc*', async (context) => {
     const { response } = await rpcHandler.handle(context.request, {
       prefix: '/rpc',
@@ -54,14 +72,21 @@ const app = new Elysia()
     })
     return response ?? new Response('Not Found', { status: 404 })
   })
-  .all('/api*', async (context) => {
+  .all('/scalar*', async (context) => {
     const { response } = await apiHandler.handle(context.request, {
-      prefix: '/api-reference',
+      context: await createContext({ context }),
+    })
+    return response ?? new Response('Not Found', { status: 404 })
+  })
+  .all('/spec.json', async (context) => {
+    const { response } = await apiHandler.handle(context.request, {
       context: await createContext({ context }),
     })
     return response ?? new Response('Not Found', { status: 404 })
   })
   .get('/', () => 'OK')
-  .listen(4000, () => {
-    console.log('Server is running on http://localhost:4000')
-  })
+  .listen(4000)
+
+app.onStart(({ server }) => {
+  console.log(`Server is running on http://localhost:${server?.port}`)
+})

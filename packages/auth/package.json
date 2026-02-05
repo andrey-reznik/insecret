@@ -1,0 +1,24 @@
+{
+  "name": "@insecret/auth",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@insecret/db": "workspace:*",
+    "@insecret/env": "workspace:*",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@insecret/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

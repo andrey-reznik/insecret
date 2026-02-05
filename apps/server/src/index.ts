@@ -85,8 +85,9 @@ const app = new Elysia()
     return response ?? new Response('Not Found', { status: 404 })
   })
   .get('/', () => 'OK')
-  .listen(4000)
 
 app.onStart(({ server }) => {
-  console.log(`Server is running on http://localhost:${server?.port}`)
+  console.log(`🔐 Server is running on http://localhost:${server?.port}`)
 })
+
+app.listen(4000)

@@ -16,6 +16,7 @@
       "!**/.vscode",
       "!**/routeTree.gen.ts",
       "!**/src-tauri",
+      "!**/src/components/ui",
       "!**/.nuxt",
       "!bts.jsonc",
       "!**/.expo",

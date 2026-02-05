@@ -22,6 +22,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     >
       <QueryClientProvider client={queryClient}>
         <AuthUIProvider
+          account={{
+            basePath: '/dashboard/account',
+          }}
           authClient={authClient}
           Link={Link}
           navigate={router.push}
